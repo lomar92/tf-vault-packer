@@ -1,0 +1,71 @@
+---
+
+name: Packer
+
+on:
+  push:
+    #paths:
+    #  - 03.packer/*
+
+jobs:
+  packer:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    name: packer-build
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Retrieve Secrets from HashiCorp Vault
+        id: secrets
+        uses: hashicorp/vault-action@v2.4.0
+        with:
+          #Shared Runner needs public facing IP of HCP Vault        
+          url: https://hcp-vault-cluster-public-vault-6a3efd3a.11422669.z1.hashicorp.cloud:8200
+          exportToken: true
+          namespace: admin
+          method: jwt
+          role: github-actions
+          secrets: |
+            cloud-secrets/data/hcp-secret HCP_CLIENT_ID | HCP_CLIENT_ID ;
+            cloud-secrets/data/hcp-secret HCP_CLIENT_SECRET | HCP_CLIENT_SECRET ;
+            aws/creds/github-actions-aws access_key | AWS_ACCESS_KEY_ID ;
+            aws/creds/github-actions-aws secret_key | AWS_SECRET_ACCESS_KEY 
+
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash
+
+          # Initialize Packer templates
+      - name: Initialize Packer Template
+        uses: lomar92/github-actions-packer@v1.8.0
+        with:
+          command: init
+          target: 03.packer/aws-ubuntu-apache.pkr.hcl
+                    
+      # validate templates
+      - name: Validate Template
+        uses: lomar92/github-actions-packer@v1.8.0
+        with:
+          command: validate
+          arguments: -syntax-only
+          target: 03.packer/aws-ubuntu-apache.pkr.hcl
+
+      # build artifact
+      - name: Build Artifact
+        uses: lomar92/github-actions-packer@v1.8.0
+        with:
+          command: build
+          arguments: "-color=false -on-error=abort"
+          target: 03.packer/aws-ubuntu-apache.pkr.hcl 
+        env: 
+          PACKER_LOG: 1
+          HCP_CLIENT_ID: ${{ steps.secrets.outputs.HCP_CLIENT_ID }} 
+          HCP_CLIENT_SECRET: ${{ steps.secrets.outputs.HCP_CLIENT_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ steps.secrets.outputs.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.secrets.outputs.AWS_SECRET_ACCESS_KEY }}
+    
+          
