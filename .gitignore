@@ -33,5 +33,5 @@ override.tf.json
 # example: *tfplan*
 
 #credentials
-01.credentials
+01.credentials.sh
 01_setup.sh
