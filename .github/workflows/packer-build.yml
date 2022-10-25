@@ -24,7 +24,7 @@ jobs:
         uses: hashicorp/vault-action@v2.4.0
         with:
           #Shared Runner needs public facing IP of HCP Vault        
-          url: https://hcp-vault-cluster-public-vault-ccd1d169.75d8f9ca.z1.hashicorp.cloud:8200
+          url: https://hcp-vault-cluster-public-vault-d4bb6426.e65a9193.z1.hashicorp.cloud:8200
           exportToken: true
           namespace: admin
           method: jwt
