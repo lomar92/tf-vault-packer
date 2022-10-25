@@ -29,8 +29,7 @@ source "amazon-ebs" "eu-central-1" {
 
   source_ami_filter {
     filters = {
-      #name = "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*"
-      name = "ubuntu/images/*ubuntu-*-18.04-amd64-server-*""
+      name = "ubuntu/images/*ubuntu-*-18.04-amd64-server-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
