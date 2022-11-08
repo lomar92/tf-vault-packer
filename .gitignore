@@ -2,6 +2,8 @@
 **/.terraform/*
 **/.terraform.*
 
+05.configure_usepass_example
+
 # .tfstate files
 *.tfstate
 *.tfstate.*
