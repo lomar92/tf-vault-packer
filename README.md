@@ -109,7 +109,7 @@ Check the GHA Workflow under Actions. If everything is set up successfully your 
 ## Links
 
 Usefull links for your own Secure Golden Image CI Pipeline.
-
+- [Hashitalks 2022 - Live Demo](https://www.youtube.com/watch?v=jz1h-bSPLOI&t=372s)
 - [GHA HashiCorp Vault](https://github.com/hashicorp/vault-action)
 - [Terraform Vault Provider Documentation](https://registry.terraform.io/providers/hashicorp/vault/latest/docs#provider-arguments)
 - [Configuring OpenID Connect in HashiCorp Vault](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-hashicorp-vault)
